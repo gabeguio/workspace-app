@@ -1,25 +1,31 @@
 package com.skillstorm.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.skillstorm.dtos.PaginatedResponse;
 import com.skillstorm.models.Employee;
-
+import com.skillstorm.repositories.EmployeePaginationRepository;
 import com.skillstorm.repositories.EmployeeRepository;
 
 @Service
 public class EmployeeService {
 	
 	@Autowired
-	private EmployeeRepository repo;
+	private EmployeeRepository crudRepo;
 	
-    public PaginatedResponse<Employee> getAllEmployees(int page, int size) {
+	@Autowired
+	private EmployeePaginationRepository paginationRepo;
+	
+    public PaginatedResponse<Employee> getPaginatedEmployees(int page, int size) {
     	Pageable pageable = PageRequest.of(page, size);
-    	Page<Employee> employeePage = repo.findAll(pageable);
+    	Page<Employee> employeePage = paginationRepo.findAll(pageable);
     	return new PaginatedResponse<>(
                 employeePage.getNumber(),
                 employeePage.getSize(),
@@ -43,7 +49,12 @@ public class EmployeeService {
 		
 	// get an employee by id
 	
-	// update an employee
+	// update one employee
+	public Employee updateEmployee(@RequestBody Employee employee) {
+		if (!crudRepo.existsById(employee.getEmployeeId()))
+			return null;
+		return crudRepo.save(employee);
+	}
 	
 	// delete an employee by id
 

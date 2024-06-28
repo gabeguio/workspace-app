@@ -22,6 +22,9 @@ public class Office {
 	@Column(name = "office_id")
 	private int officeId;
 	
+	@Column(name = "max_capacity")
+	private String maxCapacity;
+	
 	@Column(name = "street_address")
 	private String streetAddress;
 	
@@ -39,9 +42,11 @@ public class Office {
 		super();
 	}
 
-	public Office(int officeId, String streetAddress, String state, String phone, List<Employee> employees) {
+	public Office(int officeId, String maxCapacity, String streetAddress, String state, String phone,
+			List<Employee> employees) {
 		super();
 		this.officeId = officeId;
+		this.maxCapacity = maxCapacity;
 		this.streetAddress = streetAddress;
 		this.state = state;
 		this.phone = phone;
@@ -54,6 +59,14 @@ public class Office {
 
 	public void setOfficeId(int officeId) {
 		this.officeId = officeId;
+	}
+
+	public String getMaxCapacity() {
+		return maxCapacity;
+	}
+
+	public void setMaxCapacity(String maxCapacity) {
+		this.maxCapacity = maxCapacity;
 	}
 
 	public String getStreetAddress() {
@@ -86,6 +99,6 @@ public class Office {
 
 	public void setEmployees(List<Employee> employees) {
 		this.employees = employees;
-	}	
+	}
 	
 }
