@@ -2,9 +2,11 @@ package com.skillstorm.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.skillstorm.dtos.PaginatedResponse;
 import com.skillstorm.models.Employee;
 
 import com.skillstorm.repositories.EmployeeRepository;
@@ -15,8 +17,16 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeRepository repo;
 	
-    public Page<Employee> getAllEmployees(Pageable pageable) {
-        return repo.findAll(pageable);
+    public PaginatedResponse<Employee> getAllEmployees(int page, int size) {
+    	Pageable pageable = PageRequest.of(page, size);
+    	Page<Employee> employeePage = repo.findAll(pageable);
+    	return new PaginatedResponse<>(
+                employeePage.getNumber(),
+                employeePage.getSize(),
+                employeePage.getTotalElements(),
+                employeePage.getTotalPages(),
+                employeePage.isLast(),
+                employeePage.getContent());
     }
 	
 	//	// create a new employee

@@ -25,27 +25,11 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService service;
 	
-    @GetMapping("/pagination")
-    public PaginatedResponse<Employee> getEmployees(
+    @GetMapping("/page")
+    public PaginatedResponse<Employee> getPaginatedEmployees(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-    	
-    	// Build Pageable from query parameters
-        Pageable pageable = PageRequest.of(page, size);
-        
-        // Called our method from PAndSRepo
-        Page<Employee> employeePage;
-        employeePage = service.getAllEmployees(pageable);
-
-        // Build our DTO
-        return new PaginatedResponse<>(
-                employeePage.getNumber(),
-                employeePage.getSize(),
-                employeePage.getTotalElements(),
-                employeePage.getTotalPages(),
-                employeePage.isLast(),
-                employeePage.getContent()
-        );
+        return service.getAllEmployees(page, size);
     }
 	
 	//	@GetMapping
