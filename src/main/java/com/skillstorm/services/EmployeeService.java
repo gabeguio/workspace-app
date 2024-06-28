@@ -1,6 +1,8 @@
 package com.skillstorm.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.skillstorm.models.Employee;
@@ -13,18 +15,22 @@ public class EmployeeService {
 	@Autowired
 	private EmployeeRepository repo;
 	
-	// create a new employee
-	public Employee createEmployee(Employee employee) {
-		if (!repo.existsById(employee.getEmployeeId()))
-			return null;
-		return repo.save(employee);
-	}
+    public Page<Employee> getAllEmployees(Pageable pageable) {
+        return repo.findAll(pageable);
+    }
 	
-	// get all employees
-	public Iterable<Employee> getAllEmployees() {
-		return repo.findAll();
-	}
-	
+	//	// create a new employee
+	//	public Employee createEmployee(Employee employee) {
+	//		if (!repo.existsById(employee.getEmployeeId()))
+	//			return null;
+	//		return repo.save(employee);
+	//	}
+	//	
+	//	// get all employees
+	//	public Iterable<Employee> getAllEmployees() {
+	//		return repo.findAll();
+	//	}
+		
 	// get an employee by id
 	
 	// update an employee
